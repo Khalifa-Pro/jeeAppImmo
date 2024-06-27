@@ -92,7 +92,7 @@
 						             </form>
 		                            <a href="#" style="text-decoration: none; color: red">
 		                               <button class="btn btn-success">
-		                                	Payer
+		                                	Payer/mois
 		                                </button>
 		                            </a>
 		                          </td>
