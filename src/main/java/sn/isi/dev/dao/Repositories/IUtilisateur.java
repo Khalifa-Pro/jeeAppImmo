@@ -2,6 +2,7 @@ package sn.isi.dev.dao.Repositories;
 
 import java.util.List;
 
+import sn.isi.dev.entities.Login;
 import sn.isi.dev.entities.Utilisateur;
 
 public interface IUtilisateur {
@@ -10,4 +11,5 @@ public interface IUtilisateur {
 	public Utilisateur gestUtilisateurById(long id);
 	public void bloquer(Utilisateur user);
 	public void debloquer(Utilisateur user);
+	public Utilisateur findByLogin(Login login);
 }

@@ -177,6 +177,7 @@ public class ImmeubleServlet extends HttpServlet {
         String nombre_pieces = request.getParameter("nombre_pieces");
         String superficie = request.getParameter("superficie");
         String idImmeuble = request.getParameter("idImmeuble");
+        String prix = request.getParameter("prix");
         String loyer = request.getParameter("loyer");
         String archiver = request.getParameter("archiver");
         Part partImage = request.getPart("image");
@@ -198,6 +199,7 @@ public class ImmeubleServlet extends HttpServlet {
         appartement.setNumero_appt(numero_appt);
         appartement.setNombre_pieces(Integer.parseInt(nombre_pieces));
         appartement.setSuperficie(Double.parseDouble(superficie));
+        appartement.setPrix(Integer.parseInt(prix));
         appartement.setLoyer(Integer.parseInt(loyer));
         appartement.setArchiver(Integer.parseInt(archiver));
         appartement.setImmeuble(existImmo);

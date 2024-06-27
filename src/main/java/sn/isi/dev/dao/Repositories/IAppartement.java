@@ -10,6 +10,7 @@ public interface IAppartement {
 	public void ajouter(Appartement appartement);
 	public List<Appartement> liste(String mc,long idImmeuble);
 	public Appartement gestAppartementById(long id);
+	public int getPrix(long id);
 	public void modifier(Appartement appartement);
 	public void archiver(Appartement appartement);
 

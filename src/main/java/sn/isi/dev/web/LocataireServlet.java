@@ -7,17 +7,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import sn.isi.dev.dao.Implementations.AppartementImpl;
 import sn.isi.dev.dao.Implementations.ImmeubleImpl;
+import sn.isi.dev.dao.Implementations.LocationImpl;
 import sn.isi.dev.dao.Implementations.LoginImpl;
 import sn.isi.dev.dao.Implementations.UtilisateurImpl;
 import sn.isi.dev.dao.Repositories.IAppartement;
 import sn.isi.dev.dao.Repositories.IImmeuble;
+import sn.isi.dev.dao.Repositories.ILocation;
 import sn.isi.dev.dao.Repositories.IUtilisateur;
 import sn.isi.dev.dao.Repositories.Ilogin;
 import sn.isi.dev.dao.connexion.SingletonConnection;
 import sn.isi.dev.entities.Appartement;
 import sn.isi.dev.entities.Immeuble;
+import sn.isi.dev.entities.Location;
+import sn.isi.dev.entities.Utilisateur;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -30,6 +35,8 @@ public class LocataireServlet extends HttpServlet {
 	private SessionFactory sf;
     private IImmeuble iImmeuble;
     private IAppartement iAppartement;
+    private IUtilisateur iUtilisateur;
+    private ILocation iLocation;
 
     /**
      * Default constructor.
@@ -44,6 +51,8 @@ public class LocataireServlet extends HttpServlet {
             sf = SingletonConnection.getSessionFactory();
             this.iImmeuble = new ImmeubleImpl(sf);
             this.iAppartement = new AppartementImpl(sf);
+            this.iUtilisateur = new UtilisateurImpl(sf);
+            this.iLocation = new LocationImpl(sf);
         } catch (Exception e) {
             throw new ServletException("Error initializing SessionFactory", e);
         }
@@ -57,9 +66,7 @@ public class LocataireServlet extends HttpServlet {
 		
 		try {
 			switch (action) {
-			case "/louer":
-                louer(request, response);
-                break;
+
 			case "/appartement-dispo":
                 listerApp(request, response);
                 break;
@@ -75,13 +82,43 @@ public class LocataireServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String action = request.getServletPath();
+				
+				try {
+					switch (action) {
+					case "/louer":
+		                louer(request, response);
+		                break;
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 	}
 	
 	private void louer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	    Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("utilisateur");
+	    long idApp = Long.parseLong(request.getParameter("idApp"));
 
+	    Appartement appartement = iAppartement.gestAppartementById(idApp);
+	    int prixLocation = iAppartement.getPrix(idApp);
+	    Date date = new Date();
+
+	    if (appartement.getLoyer() == 1) {
+	        request.setAttribute("messageFailed", "Appartement déjà loué");
+	    } else {
+	        Location location = new Location();
+	        location.setUtilisateur(utilisateur);
+	        location.setAppartement(appartement);
+	        location.setMensualite(prixLocation);
+	        location.setCreated_date(date);
+
+	        iLocation.louer(location);
+	        request.setAttribute("messageSuccess", "Demande bien envoyée! Nous vous contacterons bientôt.");
+	    }
+
+	    listerApp(request, response); // Refresh the list of apartments
 	}
+
 	
 	private void espaceLocataire(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

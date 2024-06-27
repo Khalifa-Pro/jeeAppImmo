@@ -96,6 +96,7 @@
   <servlet-mapping>
     <servlet-name>LocataireServlet</servlet-name>
     <url-pattern>/locataire</url-pattern>
+    <url-pattern>/louer</url-pattern>
     <url-pattern>/appartement-dispo</url-pattern>
     
   </servlet-mapping>

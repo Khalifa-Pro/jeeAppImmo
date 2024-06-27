@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 
 import sn.isi.dev.dao.Repositories.IUtilisateur;
 import sn.isi.dev.entities.Immeuble;
+import sn.isi.dev.entities.Login;
 import sn.isi.dev.entities.Utilisateur;
 
 public class UtilisateurImpl implements IUtilisateur {
@@ -99,4 +100,24 @@ public class UtilisateurImpl implements IUtilisateur {
 		
 	}
 
+	
+	@Override
+	public Utilisateur findByLogin(Login login) {
+        Session session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Utilisateur utilisateur = null;
+        try {
+            Query<Utilisateur> query = session.createNamedQuery("Utilisateur.findByLogin", Utilisateur.class);
+            query.setParameter("identifiant", login.getIdentifiant());
+            query.setParameter("motDePasse", login.getMotDePasse());
+            utilisateur = query.getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return utilisateur;
+    }
 }

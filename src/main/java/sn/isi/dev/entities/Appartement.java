@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name = "Appartement.findAll", query = "SELECT a FROM Appartement a WHERE a.immeuble.idImmeuble = :idImmeuble AND a.archiver = :archiver"),
     @NamedQuery(name = "Appartement.findByNumero", query = "SELECT a FROM Appartement a WHERE a.numero_appt = :numero_appt AND a.immeuble.idImmeuble = :idImmeuble AND a.archiver = :archiver"),
+    @NamedQuery(name = "Appartement.getPrix", query = "SELECT a.prix FROM Appartement a WHERE a.idAppartement = :idAppartement"),
     @NamedQuery(name = "Appartement.findById", query = "SELECT a FROM Appartement a WHERE a.id = :id"),
     @NamedQuery(name = "Appartement.update", query = "UPDATE Appartement a set a.numero_appt = :numero_appt,a.nombre_pieces = :nombre_pieces,a.superficie = :superficie,a.loyer = :loyer where id = :id"),
     @NamedQuery(name = "Appartement.delete", query = "DELETE FROM Appartement a WHERE a.id = :id"),
@@ -42,6 +43,8 @@ public class Appartement {
 	@ManyToOne
     @JoinColumn(name="immeuble_id", nullable=false)
     private Immeuble immeuble;
+	
+	private int prix;
 	
 	@OneToOne(mappedBy = "appartement")
     private Location location;
@@ -99,6 +102,12 @@ public class Appartement {
 	}
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+	public int getPrix() {
+		return prix;
+	}
+	public void setPrix(int prix) {
+		this.prix = prix;
 	}
 	
 	

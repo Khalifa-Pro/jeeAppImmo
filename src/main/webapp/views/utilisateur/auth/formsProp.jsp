@@ -199,11 +199,11 @@
 								<div class="login">
 								<div class="group">
 									<label for="user" class="label">Username</label>
-									<input id="user" type="text" class="input"  placeholder="Enter your username">
+									<input id="user" name="username" type="text" class="input"  placeholder="Enter your username">
 								</div>
 								<div class="group">
 									<label for="pass" class="label">Password</label>
-									<input id="pass" type="password" class="input" data-type="password" placeholder="Enter your password">
+									<input id="pass" name="password" type="password" class="input" data-type="password" placeholder="Enter your password">
 								</div>
 								<div class="group">
 									<input type="submit" class="button" value="Sign In">
@@ -222,11 +222,11 @@
 								</div>
 								<div class="group">
 									<label for="user" class="label">Username</label>
-									<input id="user" type="text" class="input" placeholder="Create your Username">
+									<input id="user" name="username" type="text" class="input" placeholder="Create your Username">
 								</div>
 								<div class="group">
 									<label for="pass" class="label">Password</label>
-									<input id="pass" type="password" class="input" data-type="password" placeholder="Create your password">
+									<input id="pass" name="password" type="password" class="input" data-type="password" placeholder="Create your password">
 								</div>
 								<input name="etat" type="text" value="1"  hidden="">
 								<div class="group">

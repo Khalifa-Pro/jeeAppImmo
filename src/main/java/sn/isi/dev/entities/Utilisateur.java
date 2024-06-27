@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
     @NamedQuery(name = "Utilisateur.findByNom", query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom"),
     @NamedQuery(name = "Utilisateur.bloquer", query = "UPDATE Utilisateur u set u.etat = :etat where u.id =: id"),
     @NamedQuery(name = "Utilisateur.debloquer", query = "UPDATE Utilisateur u set u.etat = :etat"),
+    @NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.identifiant = :identifiant AND u.motDePasse = :motDePasse")
 
 })
 public class Utilisateur extends Personne {

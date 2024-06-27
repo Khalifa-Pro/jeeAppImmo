@@ -88,7 +88,7 @@
                                         <c:out value="${immeuble.description}" />
                                     </td>
                                     <td>
-						                <img src="${pageContext.request.contextPath}/image?id=${immeuble.idImmeuble}" alt="Image de l'immeuble" style="width: 100px; height: auto;" />
+						                <img src="${pageContext.request.contextPath}/image?id=${immeuble.idImmeuble}" alt="Image de l'immeuble" style="width: 150px; height: 100px;" />
 						            </td>
 							      <td>
 		                            <a href="<%=request.getContextPath()%>/form-modifier-immeuble?id=${immeuble.idImmeuble}" style="text-decoration: none">

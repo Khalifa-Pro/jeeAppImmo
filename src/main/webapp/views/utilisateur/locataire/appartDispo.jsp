@@ -14,30 +14,21 @@
   	<%@include file="../../layouts/navbarLoc.jsp" %>
   	<br>
   	<div class="container-fluid">
-  		<div class="row">
-  			<div class="col-md-2"></div>
-  			<div class="col-md-8">
-  				<a href="<%=request.getContextPath()%>/nouveau-appartement?id=${immeuble.idImmeuble}"
-			  		style="
-			  			border: 1px solid #0d6efd;
-			  			background-color: #0d6efd;
-			  			padding: 10px 10px 10px 10px;
-			  			border-radius: 5px;
-			  			color: white; 
-			  			text-decoration: none;
-			  			float: right;
-			  		">
-			  		Ajouter appartement
-			  	</a>
-  			</div>
-  			<div class="col-md-2"></div>
-  		</div>
+  		<% String messageSuccess = (String) request.getAttribute("messageSuccess"); %>
+		<% String messageFailed = (String) request.getAttribute("messageFailed"); %>
+							
+		<% if (messageSuccess != null) { %>
+			<div class="alert alert-success"><%= messageSuccess %></div>
+			<% } %>
+			<% if (messageFailed != null) { %>
+		    <div class="alert alert-danger"><%= messageFailed %></div>
+		    <% } %>
   	</div>
   	<br>
   	<div class="row">
   		<div class="col-md-2"></div>
   		<div class="col-md-8">
-  			<div class="card">
+  			<div class="card" style="width: 1000px; margin-left: -95px;">
 		  		<div class="card-header bg-primary">
 		  			<strong style="color: white">LISTE DES APPARTEMENTS</strong>
 		  		</div>
@@ -70,6 +61,7 @@
 						      <th scope="col">N° Appartements</th>
 						      <th scope="col">Nombre de pièces</th>
 						      <th scope="col">Superficie</th>
+						      <th scope="col">Prix</th>
 						      <th scope="col">Image</th>
 						      <th scope="col">Actions</th>
 						    </tr>
@@ -87,14 +79,17 @@
                                         <c:out value="${appartement.superficie}" />
                                     </td>
                                     <td>
-						                <img src="${pageContext.request.contextPath}/imageApp?id=${appartement.idAppartement}" alt="Image de l'appartement" style="width: 100px; height: auto;" />
+                                        <c:out value="${appartement.prix} FCFA" />
+                                    </td>
+                                    <td>
+						                <img src="${pageContext.request.contextPath}/imageApp?id=${appartement.idAppartement}" alt="Image de l'appartement" style="width: 150px; height: 100px;" />
 						            </td>
 							      <td>
-		                            <a href="#" style="text-decoration: none">
-		                                <button class="btn btn-primary">
-		                                	Louer
-		                                </button>
-		                            </a>
+		                              <form action="<%=request.getContextPath()%>/louer" method="post" style="display: inline;">
+							             <input type="hidden" name="idApp" value="${appartement.idAppartement}">
+							             <input type="hidden" name="idUser" value="${sessionScope.utilisateur.idUtilisateur}">
+							             <button type="submit" class="btn btn-primary">Demande location</button>
+						             </form>
 		                            <a href="#" style="text-decoration: none; color: red">
 		                               <button class="btn btn-success">
 		                                	Payer

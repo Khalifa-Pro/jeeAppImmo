@@ -109,4 +109,24 @@ public class AppartementImpl implements IAppartement {
 		tx.commit();
 		sn.close();
 	}
+	
+	public int getPrix(long id) {
+	    Session session = sf.openSession();
+	    Transaction tx = session.beginTransaction();
+	    try {
+	        Query<Integer> query = session.createNamedQuery("Appartement.getPrix", Integer.class);
+	        query.setParameter("idAppartement", id);
+	        Integer prix = query.getSingleResult();
+	        tx.commit();
+	        return prix != null ? prix : 0; // Return 0 if the result is null
+	    } catch (Exception e) {
+	        if (tx != null) tx.rollback();
+	        e.printStackTrace();
+	        return 0; // Return 0 in case of an exception
+	    } finally {
+	        session.close();
+	    }
+	}
+
+
 }

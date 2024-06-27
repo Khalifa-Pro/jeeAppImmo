@@ -145,6 +145,7 @@ public class UtilisateurServlet extends HttpServlet {
 		List<Immeuble> immeubles = iImmeuble.liste(motCle);
 		request.setAttribute("immeubles", immeubles);
 		request.getRequestDispatcher("views/utilisateur/locataire/accueil.jsp").forward(request, response);
+
     }
     //--------------------------------------------------------------------------
 
@@ -169,16 +170,25 @@ public class UtilisateurServlet extends HttpServlet {
         newLog.setMotDePasse(password);
         
         int profil = ilogin.seConnecter(newLog);
-        if (profil == 0) { // Admin
-            response.sendRedirect(request.getContextPath() + "/admin");
-        } else if (profil == 1) { // Propriétaire
-            response.sendRedirect(request.getContextPath() + "/prop");
-        } else if (profil == 2) { // Locataire
-            response.sendRedirect(request.getContextPath() + "/loc");
+        if (profil != -1) { // Assuming -1 means invalid credentials
+            Utilisateur utilisateur = iUtilisateur.findByLogin(newLog); // Assuming this method exists to get user by login
+            
+            // Store user information in session
+            request.getSession().setAttribute("utilisateur", utilisateur);
+            
+            if (profil == 0) { // Admin
+                response.sendRedirect(request.getContextPath() + "/admin");
+            } else if (profil == 1) { // Propriétaire
+                response.sendRedirect(request.getContextPath() + "/prop");
+            } else if (profil == 2) { // Locataire
+                response.sendRedirect(request.getContextPath() + "/loc");
+            }
         } else {
+            request.setAttribute("message", "Invalid username or password");
             pageInscription(request, response);
         }
     }
+
 
     
     private void inscrire(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
